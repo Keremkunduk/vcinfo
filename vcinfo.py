@@ -7,27 +7,26 @@ from datetime import date
 from tkinter import *
 from time import sleep as sl
 
-armut = 926500179006353448
-
-userid = 680117066740924443
-
 client = discord.Bot()
+
+guild_id = None # guild id comes here
 
 global font 
 font = 'Reddit Sans'
+my_username = None # your discord tag comes here(not in the server, your main username on discord)
 
 @client.event
 async def on_ready():
     print("Ready\n")
     global guild
-    guild = client.get_guild(910981204625457203)
+    guild = client.get_guild(guild_id)
 
 @client.event
 async def on_voice_state_update(member, before, after):
     today = str(date.today())
     output = None
     situation = '' #None
-    is_keremk_here = False
+    am_i_here = False
 
     ch_name = str(after.channel)
     ch = after.channel
@@ -71,14 +70,14 @@ async def on_voice_state_update(member, before, after):
 #IS KEREMK HERE
 
     for i in ch.members:
-        if i.name == 'keremkunduk' and member.name != 'keremkunduk':
-            is_keremk_here = True
+        if i.name == my_username and member.name != my_username:
+            am_i_here = True
     
 
     if not before.channel:
         output = str(member.name) + f' | Joined {ch_name}{situation}' + ' | ' + current_time + ' | ' + today
 
-        if is_keremk_here:
+        if am_i_here:
             root = Tk()
             root.geometry("+0+0")
             root.overrideredirect(True)
@@ -100,9 +99,9 @@ async def on_voice_state_update(member, before, after):
 
             for i in before.channel.members:
                 if i.name == 'keremkunduk' and member.name != 'keremkunduk':
-                    is_keremk_here = True
+                    am_i_here = True
 
-            if is_keremk_here:
+            if am_i_here:
                 root = Tk()
                 root.geometry("+0+0")
                 root.overrideredirect(True)
@@ -134,7 +133,7 @@ async def on_voice_state_update(member, before, after):
     if before.channel and not after.channel:
         output = str(member.name) + f' | Left {before.channel}{situation}' + ' | ' + current_time + ' | ' + today #ch_name
 
-        if is_keremk_here:
+        if am_i_here:
             root = Tk()
             root.geometry("+0+0")
             root.overrideredirect(True)
@@ -153,7 +152,7 @@ async def on_voice_state_update(member, before, after):
     if output == None:
         output = str(member.name) + ' |' + str(situation) + ' | ' + current_time + ' | ' + today
         if 'Stream' in situation or 'eafen' in situation:
-            if is_keremk_here:
+            if am_i_here:
                 root = Tk()
                 root.geometry("+0+0")
                 root.overrideredirect(True)
@@ -173,19 +172,6 @@ async def on_voice_state_update(member, before, after):
     op = open('vclog.txt', 'a', encoding='utf-8')
     op.write(output + '\n')
     op.close
-    
-    # if not before.channel and after.channel:
-    #     kanalid = 1063747294215815230
+        
 
-    #     channel = client.get_channel(kanalid)
-    #     members = channel.members
-    #     if members != []:
-    #         for x in members:
-    #             if x.id == member.id:
-    #                 print(f'{member} Bağlandı')
-    #             else:
-    #                 print(f'{member} Ayrıldı')
-    #     else:
-    #         print(f'{member} Ayrıldı')               
-
-client.run('OTI2NTAwMTc5MDA2MzUzNDQ4.GHjtxl.-bP8dpb0hz8hAfc8QnrgEEZR9bgmINV208SQbs')
+client.run('')
